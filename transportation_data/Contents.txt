@@ -1,0 +1,32 @@
+
+TOPS DSI Safe Routes - Crash data and WISLR network files for UW/AmFam network optimization research
+
+UW TOPS Lab, 11/23/2021
+
+Contact: Steven Parker, sparker@engr.wisc.edu
+
+
+Data Coverage:
+
+    * Middelton (C,T) and Cross Plains (T,V)
+    * 2017-2020 crashes
+    * 2020 WISLR network
+
+crash-data\
+
+    * crash-data-link-2017-2020.csv - CSV data file of police reported motor vehicle crashes with WISLR link assignments for Cross Plains and Middleton, 2017-2020.
+    
+    * crash-data-map.pdf - PDF map image of the crashes
+    
+    * TOPS_DT4000_Data_Guide_20190528.prd - DT4000 police report crash data element and attribute defintions
+    
+wislr-data\
+
+    * wislr-rdwy-link.csv - CSV data file of WISLR network link-node definitions for Cross Plains and Middleton
+    
+    * wislr-rdwy-rte-link.csv - CSV data file of WISLR roadway link ordering per roadway route and direction.
+    
+    * wislr-data-dictionary.xlsx - Data dictionary of WISLR elements used in the two CSV files.
+    
+   
+Middleton_Cross Plains.zip - ESRI ArcMap project file containing WISLR roadway network and crashes for Middleton and Cross Plains, in ZIP format.
