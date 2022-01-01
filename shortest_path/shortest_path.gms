@@ -3,6 +3,7 @@ $title shortest path try
 option limcol = 0, limrow = 0, solprint = off;
 set
     nodes
+    roadID
 ;
 
 alias (nodes,i,j);
@@ -11,6 +12,12 @@ $loadm nodes=dim1 nodes=dim2
 parameter distance(nodes,nodes);
 $load  distance=link
 $gdxin
+
+$gdxin ../road_file.gdx
+set road(roadID<,nodes,nodes);
+$load  road=road
+$gdxin
+
 
 set arc(nodes,nodes);
 
@@ -21,18 +28,26 @@ parameter
     supply(nodes)
 ;
 
-supply(nodes) = 0;
-supply('1661704') = 1;
+scalar origin,destination;
+execseed = 1 + gmillisec(jnow);
+origin = uniformint(1,card(nodes));
+destination = uniformint(1,card(nodes));
 
-supply('1665614') = -1;
+supply(nodes)$(ord(nodes) = origin) = 1;
+
+supply(nodes)$(ord(nodes) = destination) = -1;
+
+
 
 free variable
     total_dist
 ;
 
-positive variable
+integer variable
     flow(i,j)
 ;
+
+flow.lo(i,j) = 0
 
 equation
     balance(nodes)
@@ -53,11 +68,15 @@ objective_shortestPath..
 
 model shortestPath /all/;
 
-solve shortestPath using lp minimizing total_dist;
+solve shortestPath using mip minimizing total_dist;
     
-set
-    resultArcs(i,j);
-resultArcs(i,j) = no;
-resultArcs(i,j)$(flow.l(i,j) > 0.5) = yes;
 
-display resultArcs;
+set roadChosen(roadID);
+
+roadChosen(roadID) = no;
+
+roadChosen(roadID)$( sum(road(roadID,i,j), flow.l(i,j)) > 0.5) = yes;
+roadChosen(roadID)$( sum(road(roadID,i,j), flow.l(j,i)) > 0.5) = yes;
+
+
+display roadChosen;

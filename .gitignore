@@ -3,3 +3,5 @@
 *.log*
 .DS_Store
 .ipynb_checkpoints/
+_gams_*
+gamsJupyter*
