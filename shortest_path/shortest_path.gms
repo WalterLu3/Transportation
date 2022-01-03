@@ -9,13 +9,18 @@ set
 alias (nodes,i,j);
 $gdxin ../link_file.gdx
 $loadm nodes=dim1 nodes=dim2
-parameter distance(nodes,nodes);
+parameter distance(nodes,nodes) distance of a road;
 $load  distance=link
 $gdxin
 
 $gdxin ../road_file.gdx
 set road(roadID<,nodes,nodes);
 $load  road=road
+$gdxin
+
+$gdxin ../crash_file.gdx
+parameter  crash(nodes,nodes) number of crashes on a road;
+$load  crash=crash
 $gdxin
 
 
@@ -52,6 +57,7 @@ flow.lo(i,j) = 0
 equation
     balance(nodes)
     objective_shortestPath
+    objective_safestPath
 ;
 
 
@@ -60,16 +66,16 @@ balance(i)..
     
 objective_shortestPath..
     total_dist =e= sum(arc(i,j),flow(i,j)*distance(i,j));
+
+objective_safestPath..
+    total_dist =e= sum(arc(i,j),flow(i,j)*crash(i,j));
     
 
 
-    
 
-
-model shortestPath /all/;
+model shortestPath /balance, objective_shortestPath/;
 
 solve shortestPath using mip minimizing total_dist;
-    
 
 set roadChosen(roadID);
 
@@ -78,5 +84,16 @@ roadChosen(roadID) = no;
 roadChosen(roadID)$( sum(road(roadID,i,j), flow.l(i,j)) > 0.5) = yes;
 roadChosen(roadID)$( sum(road(roadID,i,j), flow.l(j,i)) > 0.5) = yes;
 
+model safestPath /balance, objective_safestPath/;
 
-display roadChosen;
+solve safestPath using mip minimizing total_dist;
+    
+set roadChosenSafe(roadID);
+
+roadChosenSafe(roadID) = no;
+
+roadChosenSafe(roadID)$( sum(road(roadID,i,j), flow.l(i,j)) > 0.5) = yes;
+roadChosenSafe(roadID)$( sum(road(roadID,i,j), flow.l(j,i)) > 0.5) = yes;
+
+
+display roadChosen, roadChosenSafe;
