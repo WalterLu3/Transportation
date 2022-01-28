@@ -9,6 +9,16 @@ set
     seriousness /K, A, B, C, O/;
 ;
 
+parameter seriousnessScore(seriousness)
+    /
+        K 10
+        A 8
+        B 3
+        C 2
+        O 1
+    /;
+
+
 alias (nodes,i,j);
 $gdxin ../link_file.gdx
 $loadm nodes=dim1 nodes=dim2
@@ -32,6 +42,13 @@ parameter crashS(nodes,nodes,season,seriousness) number of crashes on a road wit
 $load  crashS=serious_crash
 $gdxin
 
+
+$gdxin ../link_speed.gdx
+parameter speed(nodes,nodes) number of crashes on a road with different seasons and seriousness;
+$load  speed=speed
+$gdxin
+
+distance(i,j)$(distance(i,j) > 0) = distance(i,j)/speed(i,j);
 
 
 
@@ -98,7 +115,7 @@ parameter  originalCrash(nodes,nodes);
 
 loop(season,
 * using crash number as edge weights
-crash(i,j) = sum((seriousness), (6-ord(seriousness))*crashS(i,j,season,seriousness));
+crash(i,j) = sum((seriousness), seriousnessScore(seriousness)*crashS(i,j,season,seriousness));
 originalCrash(i,j) = sum((seriousness), 1*crashS(i,j,season,seriousness));
 
 
