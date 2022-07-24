@@ -138,21 +138,28 @@ objective_shortestPath2..
 turn_constr..
     sum(arc(i,j),flow(i,j)*turn(i,j)) =l= turn_const;
 
-
+set lambdaLoop /lamb1*lamb5/;
 set loopNum /l1*l100/;
-set roadChosenIntermediate(roadID,loopNum);
+set roadChosenIntermediate(roadID,lambdaLoop,loopNum);
 parameter  stochastic(i,j), stochastic2(i,j);
-scalar stochasticLambda;
+scalar stochasticLambda /0/;
+scalar stochasticLambdaUp /0/;
+
 
 model weighted /balance, objective_shortestPath2/;
 
+
+loop( lambdaLoop,
+
+stochasticLambdaUp = ord(lambdaLoop) * 0.2;
 loop( loopNum,
 
 ** stochastic component
 
-stochastic(i,j) = uniform(0.2,1.8);
-stochastic2(i,j) = uniform(0.2,1.8);
-stochasticLambda = uniform(0,1);
+
+stochastic(i,j) = uniform(0.8,1.2);
+stochastic2(i,j) = uniform(0.8,1.2);
+stochasticLambda = uniform(stochasticLambdaUp-0.2,stochasticLambdaUp);
 
 
 *** intermediate model
@@ -174,12 +181,12 @@ solve weighted using mip minimizing total_dist;
 
 
 
-roadChosenIntermediate(roadID,loopNum)$( sum(road(roadID,i,j), flow.l(i,j)) > 0.5) = yes;
+roadChosenIntermediate(roadID,lambdaLoop,loopNum)$( sum(road(roadID,i,j), flow.l(i,j)) > 0.5) = yes;
 *roadChosenIntermediate(roadID,loopNum)$( sum(road(roadID,i,j), flow.l(j,i)) > 0.5) = yes;
 
 );
-
-execute_unload 'trajectories_100.gdx', roadChosenIntermediate;
+);
+execute_unload 'trajectories_500.gdx', roadChosenIntermediate;
 
 
 $ontext
