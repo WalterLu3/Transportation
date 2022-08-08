@@ -123,7 +123,7 @@ turn_constr..
     sum(arc(i,j),flow(i,j)*turn(i,j)) =l= turn_const;
 
 
-set loopNum /l1*l10/;
+set loopNum /l1*l50/;
 set roadChosenIntermediate(roadID,loopNum);
 parameter  stochastic(i,j), stochastic2(i,j), modelStatus(loopNum);
 scalar stochasticLambda;
@@ -171,7 +171,7 @@ roadChosenIntermediate(roadID,loopNum)$( sum(road(roadID,i,j), flow.l(i,j)) > 0.
 );
 
 
-execute_unload 'trajectories_local_10.gdx', roadChosenIntermediate, modelStatus;
+execute_unload 'trajectories_local_50.gdx', roadChosenIntermediate, modelStatus;
 
 
 $ontext

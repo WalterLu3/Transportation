@@ -157,8 +157,8 @@ loop( loopNum,
 ** stochastic component
 
 
-stochastic(i,j) = uniform(0.8,1.2);
-stochastic2(i,j) = uniform(0.8,1.2);
+stochastic(i,j) = uniform(0.3,1.7);
+stochastic2(i,j) = uniform(0.3,1.7);
 stochasticLambda = uniform(stochasticLambdaUp-0.2,stochasticLambdaUp);
 
 
@@ -186,7 +186,7 @@ roadChosenIntermediate(roadID,lambdaLoop,loopNum)$( sum(road(roadID,i,j), flow.l
 
 );
 );
-execute_unload 'trajectories_500.gdx', roadChosenIntermediate;
+execute_unload 'trajectories_500_large_randomness.gdx', roadChosenIntermediate;
 
 
 $ontext

@@ -17,14 +17,14 @@ import networkx as nx
 trajectoryNum = 500
 
 Global_T= None
-with open("trajectories_500.csv",'r') as f:
+with open("trajectories_500_L.csv",'r') as f:
     reader = csv.reader(f)
     Global_T = list(reader)
 
 Global_T = Global_T[1:] # remove row names
 
 Local_T = None
-with open("trajectories_local_10.csv",'r') as f:
+with open("trajectories_local_50.csv",'r') as f:
     reader = csv.reader(f)
     Local_T = list(reader)
 
@@ -158,18 +158,28 @@ def costVector(trajDictInterSect):
 
 
 GlobalData,GlobalDataIntersect =  trajectoryDataGenerator(Global_T,500)
-LocalData,LocalDataIntersect = trajectoryDataGenerator(Local_T,10)
+LocalData,LocalDataIntersect = trajectoryDataGenerator(Local_T,50)
 
 global_cost = costVector(GlobalDataIntersect)
 local_cost = costVector(LocalDataIntersect)
 #print(len(GlobalData['l1']))
 # store the cost vectors
 
-with open("global_cost_vectors_500.pk",'wb') as f:
+# with open("global_cost_vectors_500.pk",'wb') as f:
+#     pickle.dump(global_cost,f)
+# with open("local_cost_vectors.pk",'wb') as f:
+#     pickle.dump(local_cost,f)
+# with open("global_trips_500.pk",'wb') as f:
+#     pickle.dump(GlobalData,f)
+# with open("local_trips.pk",'wb') as f:
+#     pickle.dump(LocalData,f)   
+
+
+with open("global_cost_vectors_500_lRand.pk",'wb') as f:
     pickle.dump(global_cost,f)
-with open("local_cost_vectors.pk",'wb') as f:
-    pickle.dump(local_cost,f)
-with open("global_trips_500.pk",'wb') as f:
+
+with open("global_trips_500_lRand.pk",'wb') as f:
     pickle.dump(GlobalData,f)
-with open("local_trips.pk",'wb') as f:
-    pickle.dump(LocalData,f)   
+
+
+
