@@ -65,7 +65,7 @@ distance(i,j)$(arc(i,j)) = distance(i,j) -1;
 scalar
     turn_const /100/
     intermediate_val /10/
-    Lambda /0.1/;
+    Lambda /1/;
 ;
 
 parameter
@@ -143,7 +143,7 @@ supply(nodes)$(ord(nodes) = destination) = -1;
 
 stochastic(i,j) = 1;
 stochastic2(i,j) = 1;
-stochasticLambda = 0.2;
+*stochasticLambda = 0.2;
 
 
 *** intermediate model
@@ -157,7 +157,7 @@ risk(i,j) = risk(i,j) * stochastic2(i,j);
 *intermediate_val = (0.2*roadChosenDistance_risk+1.8*roadChosenRisk_risk)/2;
 
 
-Lambda = stochasticLambda;
+*Lambda = stochasticLambda;
 
 solve weighted using mip minimizing total_dist;
 
@@ -171,7 +171,7 @@ roadChosenIntermediate(roadID,loopNum)$( sum(road(roadID,i,j), flow.l(i,j)) > 0.
 );
 
 
-execute_unload 'trajectories_local_50.gdx', roadChosenIntermediate, modelStatus;
+execute_unload 'trajectories_local_50_w10.gdx', roadChosenIntermediate, modelStatus;
 
 
 $ontext

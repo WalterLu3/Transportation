@@ -342,8 +342,6 @@ for g in range(clusterNumber):
     with open('topK_' + str(g),'wb') as f:
         pickle.dump(adj,f)
 
-
-
 with open(writeFileName, 'wb') as f:
     pickle.dump(group_optimal_path,f)
 
