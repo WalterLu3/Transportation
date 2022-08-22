@@ -65,7 +65,7 @@ distance(i,j)$(arc(i,j)) = distance(i,j) -1;
 scalar
     turn_const /100/
     intermediate_val /10/
-    Lambda /1/;
+    Lambda /0.9/;
 ;
 
 parameter
@@ -151,7 +151,7 @@ stochastic2(i,j) = 1;
 *scalar paretoRatioDistance, paretoRatioRisk, paretoRatioIntermediate;
 
 *distance(i,j) = real_distance(i,j);
-distance(i,j) = real_distance(i,j)*stochastic(i,j);
+distance(i,j) = real_distance(i,j)*99;
 risk(i,j) = risk(i,j) * stochastic2(i,j);
 
 *intermediate_val = (0.2*roadChosenDistance_risk+1.8*roadChosenRisk_risk)/2;
@@ -171,7 +171,7 @@ roadChosenIntermediate(roadID,loopNum)$( sum(road(roadID,i,j), flow.l(i,j)) > 0.
 );
 
 
-execute_unload 'trajectories_local_50_w10.gdx', roadChosenIntermediate, modelStatus;
+execute_unload 'trajectories_local_50_w09_random_adjusted.gdx', roadChosenIntermediate, modelStatus;
 
 
 $ontext
